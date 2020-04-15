@@ -209,9 +209,19 @@ int main(int argc, char** argv)
             printf("c ========================================[ Problem Statistics ]===========================================\n");
             printf("c |                                                                                                       |\n"); }
 
-        FILE* res = (argc >= 3) ? fopen(argv[argc-1], "wb") : NULL;
+        FILE* res = (argc >= 3) ? fopen(argv[2], "wb") : NULL;
         parse_DIMACS(in, S);
         gzclose(in);
+
+	gzFile por_ = (argc >= 4) ? gzopen(argv[3], "rb") : NULL;
+	if (por_ != NULL){
+	  auto por = StreamBuffer(por_);
+	  while(1){
+	    skipWhitespace(por);
+	    if (*por == EOF) break;
+	    int i = parseInt(por);
+	    S.setPolarity( abs(i) - 1, i < 0 ); }
+	  gzclose(por_); }
 
        if (S.verbosity > 0){
             printf("c |  Number of variables:  %12d                                                                   |\n", S.nVars());
