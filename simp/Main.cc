@@ -220,6 +220,7 @@ int main(int argc, char** argv)
 	    skipWhitespace(por);
 	    if (*por == EOF) break;
 	    int i = parseInt(por);
+	    if(!i) continue;
 	    S.setPolarity( abs(i) - 1, i < 0 ); }
 	  gzclose(por_); }
 
